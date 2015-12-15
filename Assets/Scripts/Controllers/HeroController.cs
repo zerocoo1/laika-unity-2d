@@ -34,7 +34,7 @@ namespace Laika
 
             if (hit)
             {
-                Dog.SetDestination(hit.point);
+                BroadcastMessage("SetDestination", hit.point);
             }
         }
     }

@@ -5,30 +5,46 @@ namespace Laika
 {
     public class Cow : Character
     {
-        public LayerMask CowLayerMask;
+        /// <summary>
+        /// Private params:
+        /// </summary>
+
+        private enum CowState
+        {
+            Inactive,
+            FreeMove,
+            Follow
+        }
+
+        private CowState _curCowState = CowState.Inactive;
+
+        /// <summary>
+        /// Public methods:
+        /// </summary>
+
+        public void FolowDog()
+        {
+            ChangeCowState(CowState.Follow);
+        }
 
         /// <summary>
         /// Private methods:
         /// </summary>
 
-        private void Vision()
+        private void ChangeCowState(CowState state)
         {
-            VisionHelper.Vision(3f, transform, CowLayerMask, () =>
-            {
-                
-            },
-            () =>
-            {
-                
-            });
-        }
+            _curCowState = state;
 
-        private IEnumerator CheckVision()
-        {
-            while (true)
+            switch (state)
             {
-                Vision();
-                yield return new WaitForSeconds(.5f);
+                case CowState.Follow:
+                    break;
+
+                case CowState.FreeMove:
+                    break;
+
+                default:
+                    break;
             }
         }
 
@@ -36,12 +52,11 @@ namespace Laika
         /// Protected methods:
         /// </summary>
 
-        protected override void OnAwake()
+        protected override void OnFixedUpdate()
         {
-            base.OnAwake();
-
-            MoveSpeed = 1.5f;
-            StartCoroutine(CheckVision());
+            if (_curCowState != CowState.Follow) return;
+            
+            Move();
         }
     }
 }

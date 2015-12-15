@@ -5,19 +5,9 @@ namespace Laika
 {
     public class Character : MonoBehaviour
     {
-        private Vector3 _target;
+        protected Vector3 TargetPoint;
 
-        protected float MoveSpeed = 2f;
-
-        /// <summary>
-        /// Public methods:
-        /// </summary>
-
-        public void SetDestination(Vector3 point)
-        {
-            _target = point;
-            _target.z = transform.position.z;
-        }
+        protected float MoveSpeed = 1f;
 
         /// <summary>
         /// Private methods:
@@ -25,19 +15,21 @@ namespace Laika
 
         private void Awake()
         {
-            _target = transform.position;
+            TargetPoint = transform.position;
 
             OnAwake();
         }
 
         private void FixedUpdate()
         {
-            Move();
+            OnFixedUpdate();
         }
 
-        private void Move()
+        
+
+        private void SetDestination(Vector2 point)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _target, MoveSpeed * Time.deltaTime);
+            TargetPoint = point;
         }
 
         /// <summary>
@@ -47,6 +39,16 @@ namespace Laika
         protected virtual void OnAwake()
         {
             
+        }
+
+        protected virtual void OnFixedUpdate()
+        {
+            Move();
+        }
+
+        protected void Move()
+        {
+            transform.position = Vector3.MoveTowards(transform.position, TargetPoint, MoveSpeed * Time.deltaTime);
         }
     }
 }

@@ -19,5 +19,23 @@ namespace Laika
                 success();
             }
         }
+
+        public static void Vision2D(float visionRadius, Transform transform, LayerMask targetLayerMask, Action<Transform> success, Action failed)
+        {
+
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, visionRadius, targetLayerMask);
+
+            if (hitColliders.Length == 0)
+            {
+                failed();
+            }
+            else
+            {
+                foreach (var collider in hitColliders)
+                {
+                    success(collider.transform);
+                }
+            }
+        }
     }
 }
