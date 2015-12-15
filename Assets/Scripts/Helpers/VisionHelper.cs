@@ -27,7 +27,7 @@ namespace Laika
 
             if (hitColliders.Length == 0)
             {
-                failed();
+                if (failed != null) failed();
             }
             else
             {

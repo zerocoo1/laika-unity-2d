@@ -18,7 +18,8 @@ namespace Laika
         }
 
         private CowState _curCowState = CowState.FreeMove;
-        private float _followCountdownTimer = 2.2f;
+        private float _followCountdown = 3.2f;
+        private float _waitToChill = 1.3f;
 
         /// <summary>
         /// Public methods:
@@ -48,12 +49,6 @@ namespace Laika
 
             switch (state)
             {
-                case CowState.Follow:
-                    break;
-
-                case CowState.FreeMove:
-                    break;
-
                 case CowState.Chill:
                     StopAllCoroutines();
                     break;
@@ -67,7 +62,7 @@ namespace Laika
         {
             while (true)
             {
-                yield return new WaitForSeconds(_followCountdownTimer);
+                yield return new WaitForSeconds(_followCountdown);
 
                 if (_curCowState == CowState.Follow) ChangeCowState(CowState.FreeMove);
             }
@@ -75,7 +70,7 @@ namespace Laika
 
         private IEnumerator WaitToChill()
         {
-            yield return new WaitForSeconds(1.3f);
+            yield return new WaitForSeconds(_waitToChill);
 
             ChangeCowState(CowState.Chill);
         }
