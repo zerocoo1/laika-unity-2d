@@ -13,14 +13,10 @@ namespace Laika
 
         private void Vision()
         {
-            VisionHelper.Vision2D(.5f, transform, DowVisionLayerMask, targetTransform =>
+            VisionHelper.Vision2D(.8f, transform, DowVisionLayerMask, targetTransform =>
             {
-                Cow cow = targetTransform.GetComponent<Cow>();
-                if (cow != null)
-                {
-                    Debug.Log(targetTransform.name);
-                    cow.FolowDog();
-                }
+                IFollow canFollow = targetTransform.GetComponent<IFollow>();
+                if (canFollow != null) canFollow.FollowMe();
             },
             () =>
             {
