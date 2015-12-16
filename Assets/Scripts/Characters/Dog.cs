@@ -9,14 +9,23 @@ namespace Laika
         /// Public params:
         /// </summary>
 
+        public int DogId;
         public LayerMask DowVisionLayerMask;
+        
+
+        public void DogReceiveCommands(bool isReceive)
+        {
+            TargetPoint = transform.position;
+            _isReceiveCommands = isReceive;
+        } 
 
         /// <summary>
         /// Private params:
         /// </summary>
 
-        private float _takeControllRadius = 1.2f;
+        private float _takeControllRadius = .8f;
         private float _visionInterval = .5f;
+        private bool _isReceiveCommands = false;
 
         /// <summary>
         /// Private methods:
@@ -48,8 +57,13 @@ namespace Laika
         {
             base.OnAwake();
 
-            MoveSpeed = 2.5f;
+            MoveSpeed = 2.2f;
             StartCoroutine(CheckVision());
+        }
+
+        protected override void OnFixedUpdate()
+        {
+            if (_isReceiveCommands) Move();
         }
     }
 }

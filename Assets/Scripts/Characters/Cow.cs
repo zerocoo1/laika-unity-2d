@@ -6,10 +6,10 @@ namespace Laika
     public class Cow : Character, IChill, IFollow
     {
         /// <summary>
-        /// Private params:
+        /// Public params:
         /// </summary>
 
-        private enum CowState
+        public enum CowState
         {
             Inactive,
             FreeMove,
@@ -17,7 +17,12 @@ namespace Laika
             Chill
         }
 
-        private CowState _curCowState = CowState.FreeMove;
+        public CowState CurCowState = CowState.FreeMove;
+
+        /// <summary>
+        /// Private params:
+        /// </summary>
+
         private float _followCountdown = 3.2f;
         private float _waitToChill = 1.3f;
 
@@ -27,7 +32,7 @@ namespace Laika
 
         public void FollowMe()
         {
-            if (_curCowState != CowState.FreeMove) return;
+            if (CurCowState != CowState.FreeMove) return;
 
             ChangeCowState(CowState.Follow);
         }
@@ -37,23 +42,36 @@ namespace Laika
             StartCoroutine(WaitToChill());
         }
 
+        public void SpawnAndGo(Vector2 spawnPoint, Vector2 wayPoint)
+        {
+            transform.position = spawnPoint;
+            ChangeCowState(CowState.FreeMove);
+            TargetPoint = wayPoint;
+        }
+
         /// <summary>
         /// Private methods:
         /// </summary>
 
         private void ChangeCowState(CowState state)
         {
-            if (_curCowState == state) return;
+            if (CurCowState == state) return;
 
-            _curCowState = state;
+            CurCowState = state;
 
             switch (state)
             {
                 case CowState.Chill:
+                    StartCoroutine(WaitToDespawn());
+                    break;
+
+                case CowState.Inactive:
+                    transform.position = new Vector3(transform.position.x, transform.position.y, 10f);
                     StopAllCoroutines();
                     break;
 
                 default:
+                    transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
                     break;
             }
         }
@@ -64,7 +82,7 @@ namespace Laika
             {
                 yield return new WaitForSeconds(_followCountdown);
 
-                if (_curCowState == CowState.Follow) ChangeCowState(CowState.FreeMove);
+                if (CurCowState == CowState.Follow) ChangeCowState(CowState.FreeMove);
             }
         }
 
@@ -73,6 +91,13 @@ namespace Laika
             yield return new WaitForSeconds(_waitToChill);
 
             ChangeCowState(CowState.Chill);
+        }
+
+        private IEnumerator WaitToDespawn()
+        {
+            yield return new WaitForSeconds(_waitToChill);
+
+            ChangeCowState(CowState.Inactive);
         }
 
         /// <summary>
@@ -86,11 +111,9 @@ namespace Laika
             StartCoroutine(FollowCountdown());
         }
 
-        protected override void OnFixedUpdate()
+        protected override void OnSetDestination(Vector2 point)
         {
-            if (_curCowState != CowState.Follow) return;
-            
-            Move();
+            if (CurCowState == CowState.Follow) TargetPoint = point;
         }
     }
 }

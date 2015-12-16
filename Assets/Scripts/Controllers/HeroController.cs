@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Laika
 {
@@ -12,9 +14,25 @@ namespace Laika
         public Character Dog;
         public LayerMask HeroWallkMask;
 
+        public void ActivateDogWithId(int id)
+        {
+            foreach (var dog in _dogsList)
+            {
+                dog.DogReceiveCommands(false || dog.DogId == id);
+            }
+        }
+
+        private List<Dog> _dogsList;
+
         /// <summary>
         /// Private methods:
         /// </summary>
+
+        private void Start()
+        {
+            _dogsList = FindObjectsOfType<Dog>().ToList();
+            ActivateDogWithId(0);
+        }
 
         private void Update()
         {

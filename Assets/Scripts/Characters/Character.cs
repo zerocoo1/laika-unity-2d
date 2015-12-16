@@ -25,11 +25,9 @@ namespace Laika
             OnFixedUpdate();
         }
 
-        
-
         private void SetDestination(Vector2 point)
         {
-            TargetPoint = point;
+            OnSetDestination(point);
         }
 
         /// <summary>
@@ -44,6 +42,11 @@ namespace Laika
         protected virtual void OnFixedUpdate()
         {
             Move();
+        }
+
+        protected virtual void OnSetDestination(Vector2 point)
+        {
+            TargetPoint = point;
         }
 
         protected void Move()

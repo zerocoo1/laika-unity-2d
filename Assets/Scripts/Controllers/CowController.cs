@@ -48,7 +48,12 @@ namespace Laika
             {
                 yield return new WaitForSeconds(3f);
 
+                Cow despawnCow = _cowsPool.Find(c => c.CurCowState == Cow.CowState.Inactive);
 
+                if (despawnCow != null)
+                {
+                    despawnCow.SpawnAndGo(WayPoints[0].position, WayPoints[Random.Range(1, WayPoints.Length - 1)].position);
+                }
             }
         }
     }

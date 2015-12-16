@@ -12,6 +12,7 @@ namespace Laika
             if (chill != null)
             {
                 chill.TakeChill();
+                GameManager.Instance.IncreasScore();
             }
         }
     }
