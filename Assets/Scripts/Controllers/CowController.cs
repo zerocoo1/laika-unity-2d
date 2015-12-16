@@ -1,0 +1,55 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Laika
+{
+    public class CowController : MonoBehaviour
+    {
+        public Transform[] WayPoints;
+        public GameObject CowPrefab;
+        public Transform CowParenTransform; 
+
+        private List<Cow> _cowsPool;
+
+        private void Start()
+        {
+            _cowsPool = new List<Cow>();
+
+            InsertFirstCows();
+
+            StartCoroutine(RespanwCows());
+        }
+
+        private void InitNewCow(Transform poinTransform)
+        {
+            GameObject cowObj = Instantiate(CowPrefab, poinTransform.position, Quaternion.identity) as GameObject;
+
+            if (cowObj == null) return;
+
+            cowObj.transform.SetParent(CowParenTransform);
+
+            Cow cow = cowObj.GetComponent<Cow>();
+
+            _cowsPool.Add(cow);
+        }
+
+        private void InsertFirstCows()
+        {
+            for (int i = 1; i < WayPoints.Length; i++)
+            {
+                InitNewCow(WayPoints[i]);
+            }
+        }
+
+        private IEnumerator RespanwCows()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(3f);
+
+
+            }
+        }
+    }
+}

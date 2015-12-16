@@ -31,8 +31,10 @@ namespace Laika
             if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(fingerId)) return;
             
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Input.mousePosition, 20f, HeroWallkMask);
+            
+            if (!hit) return;
 
-            if (hit)
+            if (hit.collider.CompareTag("Walkable"))
             {
                 BroadcastMessage("SetDestination", hit.point);
             }
