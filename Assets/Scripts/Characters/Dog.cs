@@ -23,7 +23,7 @@ namespace Laika
         /// Private params:
         /// </summary>
 
-        private float _takeControllRadius = .8f;
+        private float _takeControllRadius = .6f;
         private float _visionInterval = .5f;
         private bool _isReceiveCommands = false;
 

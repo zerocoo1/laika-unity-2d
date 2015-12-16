@@ -24,7 +24,8 @@ namespace Laika
         /// </summary>
 
         private float _followCountdown = 2.7f;
-        private float _waitToChill = 1.3f;
+        private float _waitToChill = .6f;
+        private float _waitToGoAway = 2.6f;
 
         /// <summary>
         /// Public methods:
@@ -97,7 +98,7 @@ namespace Laika
 
         private IEnumerator WaitToDespawn()
         {
-            yield return new WaitForSeconds(_waitToChill);
+            yield return new WaitForSeconds(_waitToGoAway);
 
             ChangeCowState(CowState.Inactive);
         }

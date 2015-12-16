@@ -5,9 +5,15 @@ namespace Laika
 {
     public class Character : MonoBehaviour
     {
-        protected Vector3 TargetPoint;
+        /// <summary>
+        /// Protected params:
+        /// </summary>
 
+        protected Vector3 TargetPoint;
         protected float MoveSpeed = 1f;
+        protected Animator Anim;
+
+        private Vector3 _lastPosition;
 
         /// <summary>
         /// Private methods:
@@ -15,13 +21,21 @@ namespace Laika
 
         private void Awake()
         {
+            Anim = GetComponent<Animator>();
             TargetPoint = transform.position;
+            _lastPosition = Camera.main.WorldToScreenPoint(transform.position);
 
             OnAwake();
         }
 
         private void FixedUpdate()
         {
+            var velocity = (Camera.main.WorldToScreenPoint(transform.position) - _lastPosition);
+
+            Anim.SetFloat("Speed", velocity.normalized.magnitude / 2f);
+
+            _lastPosition = Camera.main.WorldToScreenPoint(transform.position);
+
             OnFixedUpdate();
         }
 
