@@ -23,7 +23,7 @@ namespace Laika
         /// Private params:
         /// </summary>
 
-        private float _followCountdown = 3.2f;
+        private float _followCountdown = 2.7f;
         private float _waitToChill = 1.3f;
 
         /// <summary>
@@ -68,10 +68,12 @@ namespace Laika
                 case CowState.Inactive:
                     transform.position = new Vector3(transform.position.x, transform.position.y, 10f);
                     StopAllCoroutines();
+                    GameManager.Instance.IncreasScore();
                     break;
 
                 default:
                     transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
+                    TargetPoint = transform.position;
                     break;
             }
         }

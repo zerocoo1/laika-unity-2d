@@ -6,11 +6,23 @@ namespace Laika
 {
     public class CowController : MonoBehaviour
     {
+        /// <summary>
+        /// Public params:
+        /// </summary>
+
         public Transform[] WayPoints;
         public GameObject CowPrefab;
         public Transform CowParenTransform; 
 
+        /// <summary>
+        /// Private params:
+        /// </summary>
+
         private List<Cow> _cowsPool;
+
+        /// <summary>
+        /// Private methods:
+        /// </summary>
 
         private void Start()
         {
