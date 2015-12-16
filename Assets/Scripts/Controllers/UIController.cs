@@ -20,7 +20,7 @@ namespace Laika
         public void UpdateScore()
         {
             ScoreText.text = string.Format("Score: {0}", GameManager.Instance.GameScore);
-            BonusText.text = string.Format("Bonus: {0}", GameManager.Instance.GameScore);
+            BonusText.text = string.Format("Bonus: {0}", GameManager.Instance.GameBonus);
         }
     }
 }
